@@ -1,0 +1,11 @@
+{
+    "dataset_name": "senseval2",
+    "dataset_config": {
+        "path": "data/"
+    },
+    "algorithm_name": "antcolony",
+    "algorithm_config": {
+        "omega": "10"
+    },
+    "vocab_path": "vocab/"
+}
