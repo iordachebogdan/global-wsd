@@ -3,6 +3,7 @@ import json
 
 from wsd.config.algorithmconfig import AlgorithmConfig, algorithm_config_from_json
 from wsd.config.datasetconfig import DatasetConfig, dataset_config_from_json
+from wsd.config.leskconfig import LeskConfig, lesk_config_from_json
 
 
 class Config:
@@ -10,11 +11,11 @@ class Config:
         self,
         dataset_config: DatasetConfig,
         algorithm_config: AlgorithmConfig,
-        vocab_path: str,
+        lesk_config: LeskConfig,
     ) -> None:
         self.dataset_config = dataset_config
         self.algorithm_config = algorithm_config
-        self.vocab_path = vocab_path
+        self.lesk_config = lesk_config
 
     @classmethod
     def from_json(cls, path: str) -> Config:
@@ -26,13 +27,13 @@ class Config:
             algorithm_config = algorithm_config_from_json(
                 json_dict["algorithm_name"], json_dict["algorithm_config"]
             )
-            vocab_path = json_dict["vocab_path"]
+            lesk_config = lesk_config_from_json(json_dict["lesk_config"])
 
-            return cls(dataset_config, algorithm_config, vocab_path)
+            return cls(dataset_config, algorithm_config, lesk_config)
 
     def __str__(self) -> str:
         return (
             f"dataset_config={self.dataset_config}\n"
             + f"algorithm_config={self.algorithm_config}\n"
-            + f"vocab_path={self.vocab_path}"
+            + f"lesk_config={self.lesk_config}"
         )

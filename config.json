@@ -7,5 +7,7 @@
     "algorithm_config": {
         "omega": "10"
     },
-    "vocab_path": "vocab/"
+    "lesk_config": {
+        "vocab_path": "vocab/"
+    }
 }
