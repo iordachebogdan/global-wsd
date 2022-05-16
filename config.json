@@ -8,6 +8,6 @@
         "omega": "10"
     },
     "lesk_config": {
-        "vocab_path": "vocab/"
+        "vocab_path": ".cache/vocab.json"
     }
 }
