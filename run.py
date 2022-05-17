@@ -1,7 +1,8 @@
+from nltk.corpus import wordnet as wn
+
 from wsd.config.config import Config
 from wsd.lesk.leskengine import LeskEngine
 from wsd.lesk.vocab import Vocab
-from nltk.corpus import wordnet as wn
 
 config = Config.from_json("./config.json")
 print(config)

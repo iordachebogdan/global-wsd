@@ -1,9 +1,8 @@
-from copy import copy
 import itertools
+from copy import copy
 from typing import TypeAlias
 
 import numpy as np
-from nltk.corpus import wordnet as wn
 from nltk.corpus.reader.wordnet import Synset
 
 from wsd.config.leskconfig import LeskConfig
@@ -88,7 +87,8 @@ class LeskEngine:
             ) -> tuple[int, int, int]:
                 """Find the longest common phrase contained in two lists of tokens,
                 using dynamic programming (dp[i][j] := length of longest common phrase
-                that ends at index i-1 in the first array and index j-1 in the second one)
+                that ends at index i-1 in the first array and index j-1 in the second
+                one)
 
                 Do not match the special index.
 
@@ -121,3 +121,6 @@ class LeskEngine:
                 second = second[:start2] + [SPECIAL_INDEX] + second[start2 + length :]
                 overlap += length**2
             return overlap
+
+    def get_extended_gloss(self, syn: Synset) -> list[int]:
+        return self.retrieve_relations(syn)["all"]

@@ -15,7 +15,14 @@ class AlgorithmConfig:
 
 @dataclass(frozen=True)
 class AntcolonyAlgorithmConfig(AlgorithmConfig):
-    omega: int
+    energy_ant: int
+    max_energy: int
+    evaporation_rate: float
+    energy_node: int
+    ant_cycles: int
+    max_odour: int
+    odour_deposit_pct: float
+    total_cycles: int
 
 
 @dataclass(frozen=True)

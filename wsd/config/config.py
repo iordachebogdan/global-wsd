@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import json
 
 from wsd.config.algorithmconfig import AlgorithmConfig, algorithm_config_from_json
