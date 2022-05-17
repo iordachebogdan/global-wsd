@@ -9,3 +9,12 @@ def penntreebank_to_wn(tag: str) -> None | str:
     if tag.startswith("jj"):  # adjective
         return "a"
     return None
+
+
+def translate_to_wn_relations(relation: str) -> list[str]:
+    if relation == "holonyms":
+        return ["substance_holonyms", "part_holonyms", "member_holonyms"]
+    elif relation == "meronyms":
+        return ["substance_meronyms", "part_meronyms", "member_meronyms"]
+    else:
+        return [relation]

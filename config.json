@@ -8,6 +8,10 @@
         "omega": "10"
     },
     "lesk_config": {
-        "vocab_path": ".cache/vocab.json"
+        "vocab_path": ".cache/vocab.json",
+        "use_squares": false,
+        "relations_list": [
+            "definition"
+        ]
     }
 }

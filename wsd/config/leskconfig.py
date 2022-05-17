@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Any
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=False)
 class LeskConfig:
     vocab_path: str
     use_squares: bool = False
