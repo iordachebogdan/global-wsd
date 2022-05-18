@@ -23,6 +23,7 @@ class AntcolonyAlgorithmConfig(AlgorithmConfig):
     max_odour: int
     odour_deposit_pct: float
     total_cycles: int
+    theta: int
 
 
 @dataclass(frozen=True)
