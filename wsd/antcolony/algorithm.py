@@ -30,7 +30,7 @@ class Algorithm:
         best_score: int = -1
         best_mapping: dict[Item, Synset]
         for cycle in range(self.config.total_cycles):
-            if cycle % 1 == 0:
+            if cycle % 10 == 0:
                 print(f"Running cycle {cycle + 1} out of {self.config.total_cycles}...")
 
             # (1) eliminate dead ants and bridges with no pheromone

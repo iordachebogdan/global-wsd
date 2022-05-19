@@ -11,7 +11,7 @@ FILE_IDS = [
     "brown1/tagfiles/br-a01.xml",
     "brown1/tagfiles/br-b13.xml",
     "brown1/tagfiles/br-c01.xml",
-    # "brown1/tagfiles/br-d02.xml",
+    "brown1/tagfiles/br-d02.xml",
     # "brown2/tagfiles/br-e22.xml",
     # "brown1/tagfiles/br-r05.xml",
     # "brown2/tagfiles/br-g14.xml",
