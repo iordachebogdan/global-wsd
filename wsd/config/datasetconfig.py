@@ -7,6 +7,7 @@ class DatasetEnum(Enum):
     SEMCOR = "semcor"
     SENSEVAL2 = "senseval2"
     SENSEVAL3 = "senseval3"
+    SEMEVAL = "semeval"
 
 
 @dataclass(frozen=True)
@@ -16,11 +17,19 @@ class DatasetConfig:
 
 @dataclass(frozen=True)
 class XMLDatasetConfig(DatasetConfig):
-    path: str
+    docs_path: str
+    gs_path: str
+
+
+@dataclass(frozen=True)
+class SemcorDatasetConfig(DatasetConfig):
+    pass
 
 
 def dataset_config_from_json(name: str, json_config: Any) -> DatasetConfig:
     dataset_name = DatasetEnum(name)
     match dataset_name:
-        case DatasetEnum.SENSEVAL2 | DatasetEnum.SENSEVAL3:
+        case DatasetEnum.SENSEVAL2 | DatasetEnum.SENSEVAL3 | DatasetEnum.SEMEVAL:
             return XMLDatasetConfig(name=dataset_name, **json_config)
+        case DatasetEnum.SEMCOR:
+            return SemcorDatasetConfig(name=dataset_name, **json_config)

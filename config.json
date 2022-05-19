@@ -1,17 +1,15 @@
 {
-    "dataset_name": "senseval2",
-    "dataset_config": {
-        "path": "data/"
-    },
+    "dataset_name": "semcor",
+    "dataset_config": {},
     "algorithm_name": "antcolony",
     "algorithm_config": {
-        "energy_ant": 16,
-        "max_energy": 56,
-        "evaporation_rate": 0.9,
-        "energy_node": 30,
-        "ant_cycles": 25,
-        "max_odour": 100,
-        "odour_deposit_pct": 0.9,
+        "energy_ant": 3,
+        "max_energy": 14,
+        "evaporation_rate": 0.3577,
+        "energy_node": 34,
+        "ant_cycles": 26,
+        "max_odour": 25,
+        "odour_deposit_pct": 0.9775,
         "total_cycles": 100,
         "theta": 1
     },

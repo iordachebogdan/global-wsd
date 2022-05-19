@@ -6,7 +6,7 @@ from wsd.antcolony.graph import Node
 
 class AntModeEnum(Enum):
     EXPLORE = 0
-    RETURN = 0
+    RETURN = 1
 
 
 class Ant:

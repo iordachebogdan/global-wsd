@@ -13,7 +13,7 @@ from wsd.data.document import Item
 from wsd.lesk.leskengine import LeskEngine
 from wsd.util.helpers import discrete_random_variable, normalize
 
-EPS: float = 1e-1
+EPS: float = 1e-2
 
 
 class Algorithm:
@@ -23,14 +23,15 @@ class Algorithm:
         self.config = config
         self.lesk_engine = LeskEngine(lesk_config)
 
-    def run(self, document: Document) -> dict[str, Synset]:
+    def run(self, document: Document) -> dict[Item, Synset]:
         graph = self.init_graph(document)
         ants: list[Ant] = []
 
         best_score: int = -1
         best_mapping: dict[Item, Synset]
         for cycle in range(self.config.total_cycles):
-            print(f"Running cycle {cycle + 1} out of {self.config.total_cycles}...")
+            if cycle % 1 == 0:
+                print(f"Running cycle {cycle + 1} out of {self.config.total_cycles}...")
 
             # (1) eliminate dead ants and bridges with no pheromone
             ants = self.remove_dead_ants(ants)
@@ -59,7 +60,7 @@ class Algorithm:
                 best_score = score
                 best_mapping = current_mapping
 
-        return {item.id: syn for (item, syn) in best_mapping.items() if item}
+        return best_mapping
 
     def extract_senses(self, graph: Graph) -> dict[Item, Synset]:
         mapped_senses: dict[Item, Synset] = {}
