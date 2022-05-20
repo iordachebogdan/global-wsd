@@ -28,7 +28,16 @@ class AntcolonyAlgorithmConfig(AlgorithmConfig):
 
 @dataclass(frozen=True)
 class FireflyAlgorithmConfig(AlgorithmConfig):
-    theta: int
+    swarm_size: int
+    window_size: int
+    max_synsets: int
+    num_iterations: int
+    gamma: float
+    alpha: float
+    lr: float
+    lfa: float
+    lahc_cycles: int
+    lahc_num_switches: int
 
 
 def algorithm_config_from_json(name: str, json_config: Any) -> AlgorithmConfig:

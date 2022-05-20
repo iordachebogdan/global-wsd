@@ -4,18 +4,17 @@
         "docs_path": "data/senseval2/senseval2.data.xml",
         "gs_path": "data/senseval2/senseval2.gold.key.txt"
     },
-    "algorithm_name": "firefly",
+    "algorithm_name": "antcolony",
     "algorithm_config": {
-        "swarm_size": 40,
-        "window_size": 11,
-        "max_synsets": 5,
-        "num_iterations": 100,
-        "gamma": 1.0,
-        "alpha": 0.2,
-        "lr": 0.15,
-        "lfa": 17000,
-        "lahc_cycles": 30000,
-        "lahc_num_switches": 2
+        "energy_ant": 3,
+        "max_energy": 14,
+        "evaporation_rate": 0.3577,
+        "energy_node": 34,
+        "ant_cycles": 26,
+        "max_odour": 25,
+        "odour_deposit_pct": 0.9775,
+        "total_cycles": 100,
+        "theta": 1
     },
     "lesk_config": {
         "vocab_path": ".cache/vocab.json",
