@@ -1,6 +1,9 @@
 {
-    "dataset_name": "semcor",
-    "dataset_config": {},
+    "dataset_name": "senseval2",
+    "dataset_config": {
+        "docs_path": "data/senseval2/senseval2.data.xml",
+        "gs_path": "data/senseval2/senseval2.gold.key.txt"
+    },
     "algorithm_name": "antcolony",
     "algorithm_config": {
         "energy_ant": 3,

@@ -30,7 +30,7 @@ class Algorithm:
         best_score: int = -1
         best_mapping: dict[Item, Synset]
         for cycle in range(self.config.total_cycles):
-            if cycle % 10 == 0:
+            if cycle % 1 == 0:
                 print(f"Running cycle {cycle + 1} out of {self.config.total_cycles}...")
 
             # (1) eliminate dead ants and bridges with no pheromone
@@ -186,12 +186,11 @@ class Algorithm:
         if ant.mode == AntModeEnum.EXPLORE:
             return node.energy
         else:
-            self.lesk_engine.compute_overlap(ant.nest.odour, node.odour)
+            return self.lesk_engine.compute_overlap(ant.nest.odour, node.odour)
 
     def _energy_exchange(self, ant: Ant, node: Node) -> None:
         if node is not ant.nest:
             energy = min(
-                0,
                 self.config.energy_ant,
                 self.config.max_energy - ant.energy,
                 node.energy,
