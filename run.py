@@ -39,4 +39,3 @@ for i, document in enumerate(dataset.documents):
     with open(predictions_path, "w") as f:
         json.dump(all_predictions, f, indent=4)
     print("\n")
-    break

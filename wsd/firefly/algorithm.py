@@ -62,8 +62,8 @@ class Algorithm:
         }
 
     def _deploy_swarm(self, domain) -> list[Firefly]:
-        fireflies: list[Firefly] = []
-        for _ in range(self.config.swarm_size):
+        fireflies: list[Firefly] = [Firefly([0] * len(domain))]
+        for _ in range(self.config.swarm_size - 1):
             values = [random.randint(0, num_syns) for num_syns in domain]
             fireflies.append(Firefly(values))
         return fireflies
@@ -99,21 +99,16 @@ class Algorithm:
         return score
 
     def _lahc(self, firefly: Firefly, domain: list[int], items: list[Item]) -> Firefly:
-        switch_available_for: list[int] = [
-            i for (i, val) in enumerate(domain) if val > 0
-        ]
-
         best_firefly = deepcopy(firefly)
         current_firefly = deepcopy(firefly)
         fitness: list[float] = [firefly.intensity] * self.config.lfa
 
         for step in range(self.config.lahc_cycles):
-            if step % 100 == 0:
+            if step % 3000 == 0:
                 print(f"\tLAHC step {step + 1} out of {self.config.lahc_cycles}")
             pos = step % self.config.lfa  # pos in fitness vector
             switches = random.sample(
-                switch_available_for,
-                min(self.config.lahc_num_switches, len(switch_available_for)),
+                range(len(domain)), min(len(domain), self.config.lahc_num_switches)
             )  # which senses to switch
 
             # EFFICIENTLY UPDATE INTENSITY

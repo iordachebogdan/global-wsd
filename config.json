@@ -1,8 +1,8 @@
 {
-    "dataset_name": "senseval2",
+    "dataset_name": "senseval3",
     "dataset_config": {
-        "docs_path": "data/senseval2/senseval2.data.xml",
-        "gs_path": "data/senseval2/senseval2.gold.key.txt"
+        "docs_path": "data/senseval3/senseval3.data.xml",
+        "gs_path": "data/senseval3/senseval3.gold.key.txt"
     },
     "algorithm_name": "firefly",
     "algorithm_config": {
@@ -15,7 +15,7 @@
         "lr": 0.15,
         "lfa": 17000,
         "lahc_cycles": 30000,
-        "lahc_num_switches": 2
+        "lahc_num_switches": 1
     },
     "lesk_config": {
         "vocab_path": ".cache/vocab.json",
