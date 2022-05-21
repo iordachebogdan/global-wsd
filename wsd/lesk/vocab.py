@@ -10,6 +10,7 @@ from wsd.util.helpers import penntreebank_to_wn
 
 class Vocab:
     def __init__(self, path: str) -> None:
+        self.lemmatizer = WordNetLemmatizer()
         if os.path.exists(path):
             with open(path) as f:
                 json_dict = json.load(f)
@@ -19,7 +20,6 @@ class Vocab:
             with open(path, "w") as f:
                 json.dump(self.word2idx, f)  # store vocab in cache
         self.idx2word: dict[int, str] = {v: k for k, v in self.word2idx.items()}
-        self.lemmatizer = WordNetLemmatizer()
 
     def compute_vocab(self) -> dict[str, int]:
         vocab: dict[str, int] = {}
