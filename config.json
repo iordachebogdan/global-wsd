@@ -1,8 +1,8 @@
 {
-    "dataset_name": "senseval3",
+    "dataset_name": "semeval",
     "dataset_config": {
-        "docs_path": "data/senseval3/senseval3.data.xml",
-        "gs_path": "data/senseval3/senseval3.gold.key.txt"
+        "docs_path": "data/semeval2007/semeval2007.data.xml",
+        "gs_path": "data/semeval2007/semeval2007.gold.key.txt"
     },
     "algorithm_name": "firefly",
     "algorithm_config": {

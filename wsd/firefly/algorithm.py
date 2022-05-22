@@ -1,6 +1,6 @@
-from copy import deepcopy
 import math
 import random
+from copy import deepcopy
 
 from nltk.corpus import wordnet_ic
 from nltk.corpus.reader.wordnet import Synset
