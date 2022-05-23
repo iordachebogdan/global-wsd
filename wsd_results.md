@@ -1,9 +1,10 @@
-﻿|              | Ant Colony Algorithm | Hybrid Firefly Algorithm |
+|              | Ant Colony Algorithm | Hybrid Firefly Algorithm |
 |--------------|:--------------------:|:------------------------:|
 | semeval 2007 | 55.16%               | 42.86%                   |
 | senseval 2   | 65.51%               | 63.37%                   |
 | senseval 3   | 66.05%               | 49.08%                   |
 | semcor       | 74.03%               | 56.39%                   |
+
 **Table 1.** F-scores achieved by the global WSD algorithms on the four proposed datasets.
 
 |              | Noun   | Verb   | Adjective | Adverb |
