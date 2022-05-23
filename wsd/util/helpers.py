@@ -46,8 +46,12 @@ def discrete_random_variable(weights: list[float]) -> int:
     return len(weights)
 
 
-def normalize(array: list[int | float], tol: float = 1e-7) -> list[float]:
+def normalize(
+    array: list[int | float], tol: float = 1e-7, ensure_distribution: bool = False
+) -> list[float]:
     sum_array = sum(array)
     if sum_array < tol:
         sum_array = 1
+        if ensure_distribution:
+            return [1 / len(array)] * len(array)
     return [x / sum_array for x in array]

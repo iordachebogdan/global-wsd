@@ -178,7 +178,8 @@ class Algorithm:
             [
                 eval_node + eval_edge
                 for (eval_node, eval_edge) in zip(eval_nodes, eval_edges)
-            ]
+            ],
+            ensure_distribution=True,
         )
         return list(zip(ant.current_node.adj_edges, total_eval))
 
