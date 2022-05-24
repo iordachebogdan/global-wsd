@@ -12,25 +12,27 @@ FILE_IDS = [
     "brown1/tagfiles/br-b13.xml",
     "brown1/tagfiles/br-c01.xml",
     "brown1/tagfiles/br-d02.xml",
-    # "brown2/tagfiles/br-e22.xml",
-    # "brown1/tagfiles/br-r05.xml",
-    # "brown2/tagfiles/br-g14.xml",
-    # "brown2/tagfiles/br-h21.xml",
-    # "brown1/tagfiles/br-j01.xml",
-    # "brown1/tagfiles/br-k01.xml",
-    # "brown1/tagfiles/br-k11.xml",
-    # "brown2/tagfiles/br-l09.xml",
-    # "brown1/tagfiles/br-m02.xml",
-    # "brown1/tagfiles/br-n05.xml",
-    # "brown2/tagfiles/br-p07.xml",
-    # "brown2/tagfiles/br-r04.xml",
-    # "brown1/tagfiles/br-r06.xml",
-    # "brown1/tagfiles/br-r08.xml",
-    # "brown1/tagfiles/br-r09.xml",
+    "brown2/tagfiles/br-e22.xml",
+    "brown1/tagfiles/br-r05.xml",
+    "brown2/tagfiles/br-g14.xml",
+    "brown2/tagfiles/br-h21.xml",
+    "brown1/tagfiles/br-j01.xml",
+    "brown1/tagfiles/br-k01.xml",
+    "brown1/tagfiles/br-k11.xml",
+    "brown2/tagfiles/br-l09.xml",
+    "brown1/tagfiles/br-m02.xml",
+    "brown1/tagfiles/br-n05.xml",
+    "brown2/tagfiles/br-p07.xml",
+    "brown2/tagfiles/br-r04.xml",
+    "brown1/tagfiles/br-r06.xml",
+    "brown1/tagfiles/br-r08.xml",
+    "brown1/tagfiles/br-r09.xml",
 ]
 
 
 class SemcorDataset(DatasetBase):
+    """Load the files from the Semcor corpus, specified in the HFA paper."""
+
     def __init__(self, config: SemcorDatasetConfig) -> None:
         self.documents: Document = []
         for document_tag in FILE_IDS:

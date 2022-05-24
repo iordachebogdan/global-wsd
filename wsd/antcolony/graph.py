@@ -14,6 +14,17 @@ class NodeTypeEnum(Enum):
 
 
 class Node:
+    """Representation of a node in the Ant Colony Algorithm.
+
+    Attributes:
+        type: nest or common
+        parent: the parent node in the tree
+        odour: odour vector
+        adj_edges: adjacent edges in the graph (tree edges and bridges)
+        syn: corresponding synset for nests only
+        energy: quantity of energy currently in the node
+    """
+
     def __init__(
         self, type: NodeTypeEnum, parent: None | Node = None, syn: None | Synset = None
     ) -> None:
@@ -31,6 +42,9 @@ class Node:
         self.adj_edges.remove(edge)
 
     def update_odour(self, new_components: list[int], max_length: int) -> None:
+        """Given the new odour components add them to the back and trim the beginning
+        if the odour vector exceeds the maximum length (remove older smells).
+        """
         if self.type == NodeTypeEnum.NEST:
             return
         self.odour.extend(new_components)
@@ -40,6 +54,7 @@ class Node:
     def is_potential_friend_nest(self, other_nest: Node) -> bool:
         return (
             self.type == NodeTypeEnum.NEST  # is a nest
+            and other_nest.type == NodeTypeEnum.NEST  # the other one is a nest
             and self is not other_nest  # is not the same nest
             and self.parent is not other_nest.parent  # is not an enemy nest
         )
@@ -52,6 +67,13 @@ class Node:
 
 
 class Edge:
+    """Representation of an edge in the Ant Colony graph.
+
+    Attributes:
+        nodes: the nodes connected by the edge
+        pheromone: quantity of pheromone collected on the edge
+    """
+
     def __init__(self, nodes: tuple[Node, Node], pheromone: float = 0) -> None:
         self.nodes = nodes
         self.pheromone = pheromone
@@ -61,6 +83,18 @@ class Edge:
 
 
 class Graph:
+    """Graph representation from Ant Colony Algorithm.
+
+    Attributes:
+        nodes: list of nodes
+        edges: list of tree edges
+        bridges: list of pridges
+        item2node: mapping between document items (words) and thei corresponding node
+
+    Args:
+        document: the document from which the graph is built
+    """
+
     def __init__(self, document: Document) -> None:
         root = Node(type=NodeTypeEnum.COMMON)
         self.nodes: list[Node] = [root]

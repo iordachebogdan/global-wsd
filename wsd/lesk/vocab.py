@@ -9,6 +9,13 @@ from wsd.util.helpers import penntreebank_to_wn
 
 
 class Vocab:
+    """Compute the vocabulary used for preprocessing synset definitions.
+
+    Args:
+        path: path to load the vocabulary from, if existing, or to store it,
+              otherwise
+    """
+
     def __init__(self, path: str) -> None:
         self.lemmatizer = WordNetLemmatizer()
         if os.path.exists(path):
@@ -22,6 +29,7 @@ class Vocab:
         self.idx2word: dict[int, str] = {v: k for k, v in self.word2idx.items()}
 
     def compute_vocab(self) -> dict[str, int]:
+        """Compute vocabulary from scratch."""
         vocab: dict[str, int] = {}
         for syn in wn.all_synsets():
             definition = syn.definition()
@@ -36,6 +44,9 @@ class Vocab:
         return vocab
 
     def process_text(self, text: str) -> list[int]:
+        """Tokenize and lemmatize the text and return the corresponding list of
+        vocabulary indices
+        """
         tagged_text = nltk.pos_tag(nltk.word_tokenize(text))
         list_of_indices: list[int] = []
         for word, tag in tagged_text:

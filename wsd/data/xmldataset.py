@@ -11,9 +11,12 @@ from wsd.util.helpers import xml_to_wn_pos
 
 
 class XMLDataset(DatasetBase):
+    """Load the documents from the corresponding XML file along with gold labels."""
+
     def __init__(self, config: XMLDatasetConfig) -> None:
         self.documents: list[Document] = []
 
+        # read gold labels
         id2syns: dict[str, list[Synset]] = {}
         with open(config.gs_path) as f:
             content = f.read()
@@ -30,6 +33,16 @@ class XMLDataset(DatasetBase):
 
     @staticmethod
     def build_document(doc_node: Any, id2syns: dict[str, list[Synset]]) -> Document:
+        """Given the document XML tree and the golden labels, build the corresponding
+        Document object.
+
+        Args:
+            doc_node: XML node corresponding to the root of the document
+            id2syns: mapping from word ids to their true synsets
+
+        Returns:
+            a Document object
+        """
         document: Document = []
         for sentence_node in doc_node:
             sentence: Sentence = []

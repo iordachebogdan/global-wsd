@@ -16,11 +16,26 @@ BROWN_IC = wordnet_ic.ic("ic-brown.dat")
 
 
 class Algorithm:
+    """Engine for running the Hybrid Firefly Algorithm
+
+    Args:
+        config: the firefly hyperparameters configuration
+        lesk_config: configuration for the extended lesk engine
+    """
+
     def __init__(self, config: FireflyAlgorithmConfig, lesk_config: LeskConfig) -> None:
         self.config = config
         self.lesk_engine = LeskEngine(lesk_config)
 
     def run(self, document: Document) -> dict[Item, Synset]:
+        """Run the algorithm on a document.
+
+        Args:
+            document: the document to disambiguate
+
+        Returns:
+            a mapping between the words in the document and the assigned synset
+        """
         all_items: list[Item] = [item for sentence in document for item in sentence]
         domain: list[int] = [
             min(len(item.synsets), self.config.max_synsets) - 1 for item in all_items
@@ -62,6 +77,9 @@ class Algorithm:
         }
 
     def _deploy_swarm(self, domain) -> list[Firefly]:
+        """Return a list of random fireflies, each position being assigned wrt
+        the number of senses for the corresponding word.
+        """
         fireflies: list[Firefly] = [Firefly([0] * len(domain))]
         for _ in range(self.config.swarm_size - 1):
             values = [random.randint(0, num_syns) for num_syns in domain]
@@ -69,6 +87,9 @@ class Algorithm:
         return fireflies
 
     def _compute_intensity(self, firefly: Firefly, items: list[Item]) -> float:
+        """Given a firefly and the list of corresponding items to disambiguate,
+        compute the light intensity of the firefly.
+        """
         intensity: float = 0
         for center in range(len(items)):
             intensity += self._compute_window_score(firefly, center, items)
@@ -77,6 +98,9 @@ class Algorithm:
     def _compute_window_score(
         self, firefly: Firefly, center: int, items: list[Item]
     ) -> float:
+        """Helper method for computing the extended lesk and resnik scores on a
+        window of given center.
+        """
         left = max(0, center - self.config.window_size // 2)
         right = min(len(items), center + self.config.window_size // 2 + 1)
         score = 0
@@ -99,6 +123,16 @@ class Algorithm:
         return score
 
     def _lahc(self, firefly: Firefly, domain: list[int], items: list[Item]) -> Firefly:
+        """Late Acceptance Hill Climbing implementation.
+
+        Args:
+            firefly: the best firefly from which we start the local search
+            domain: value domain for the positions of the firefly
+            items: the list of items that the firefly disambiguates
+
+        Returns:
+            best firefly found by the local search algorithm
+        """
         best_firefly = deepcopy(firefly)
         current_firefly = deepcopy(firefly)
         fitness: list[float] = [firefly.intensity] * self.config.lfa

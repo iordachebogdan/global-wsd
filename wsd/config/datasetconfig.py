@@ -17,8 +17,8 @@ class DatasetConfig:
 
 @dataclass(frozen=True)
 class XMLDatasetConfig(DatasetConfig):
-    docs_path: str
-    gs_path: str
+    docs_path: str  # path to the XML file containing the documents
+    gs_path: str  # path to the gold labels
 
 
 @dataclass(frozen=True)
@@ -27,6 +27,9 @@ class SemcorDatasetConfig(DatasetConfig):
 
 
 def dataset_config_from_json(name: str, json_config: Any) -> DatasetConfig:
+    """Given the name of the dataset and the content of the json configuration
+    object, return its necessary parameters.
+    """
     dataset_name = DatasetEnum(name)
     match dataset_name:
         case DatasetEnum.SENSEVAL2 | DatasetEnum.SENSEVAL3 | DatasetEnum.SEMEVAL:

@@ -8,6 +8,14 @@ from wsd.config.leskconfig import LeskConfig, lesk_config_from_json
 
 
 class Config:
+    """Configuration object that stores the entire experiment description.
+
+    Attributes:
+        dataset_config: configuration for the WSD dataset
+        algorithm_config: configuration of ACA/HFA
+        lesk_config: configuration of the extended lesk engine
+    """
+
     def __init__(
         self,
         dataset_config: DatasetConfig,

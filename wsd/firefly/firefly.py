@@ -6,11 +6,19 @@ import numpy as np
 
 
 class Firefly:
+    """Object storing the configuration of a firefly.
+
+    Attributes:
+        values: the assigned sense indices for each word by the firefly
+        intensity: firefly light intensity
+    """
+
     def __init__(self, values: list[int], intensity: float = 0) -> None:
         self.values = np.array(values, dtype=np.float64)
         self.intensity = intensity
 
     def distance(self, other: Firefly) -> float:
+        """Euclidian distiance between fireflies."""
         return np.linalg.norm(self.values - other.values)
 
     def move_towards(
@@ -20,6 +28,10 @@ class Firefly:
         alpha: float,
         clip_max: list[int],
     ) -> None:
+        """Move this firefly towards a brighter one using the equation in the
+        paper, while making sure that the values remain integers in the correct
+        domain
+        """
         self.values += beta * (other.values - self.values) + alpha * (
             random.uniform(0, 1) - 0.5
         )

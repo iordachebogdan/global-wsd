@@ -17,6 +17,13 @@ EPS: float = 1e-2
 
 
 class Algorithm:
+    """Engine for running the Ant Colony Algorithm
+
+    Args:
+        config: the ant-colony hyperparameters configuration
+        lesk_config: configuration for the extended lesk engine
+    """
+
     def __init__(
         self, config: AntcolonyAlgorithmConfig, lesk_config: LeskConfig
     ) -> None:
@@ -24,6 +31,14 @@ class Algorithm:
         self.lesk_engine = LeskEngine(lesk_config)
 
     def run(self, document: Document) -> dict[Item, Synset]:
+        """Run the algorithm on a document.
+
+        Args:
+            document: the document to disambiguate
+
+        Returns:
+            a mapping between the words in the document and the assigned synset
+        """
         graph = self.init_graph(document)
         ants: list[Ant] = []
 
@@ -63,6 +78,15 @@ class Algorithm:
         return best_mapping
 
     def extract_senses(self, graph: Graph) -> dict[Item, Synset]:
+        """Given the configuration of the graph extract the assigned senses by looking
+        at the nests with the largest amount of energy.
+
+        Args:
+            graph: the graph of the algorithm
+
+        Returns:
+            a mapping between the items (words) in the graph and the assigned synsets
+        """
         mapped_senses: dict[Item, Synset] = {}
         for item, node in graph.item2node.items():
             nests = [
@@ -78,6 +102,15 @@ class Algorithm:
         return mapped_senses
 
     def global_evaluation(self, senses: list[Synset]) -> int:
+        """Given the synsets assigned to all of the words in the document, compute
+        the global evaluation using extended lesk.
+
+        Args:
+            senses: the list of assigned synsets
+
+        Returns:
+            the global evaluation score
+        """
         score = 0
         for i, first in enumerate(senses):
             for second in senses[i + 1 :]:
@@ -85,6 +118,14 @@ class Algorithm:
         return score
 
     def init_graph(self, document: Document) -> Graph:
+        """Initialize the graph using the given document; assign odour to nest nodes.
+
+        Args:
+            document: the document on which the algorithm is run
+
+        Returns:
+            the resulted graph
+        """
         graph = Graph(document)
         for node in graph.nodes:
             node.energy = self.config.energy_node
@@ -93,6 +134,7 @@ class Algorithm:
         return graph
 
     def compute_nest_odour(self, nest: Node) -> None:
+        """Compute the odour vector of a nest and store it."""
         extended_gloss = self.lesk_engine.get_extended_gloss(nest.syn)
         extended_gloss_counter = Counter(extended_gloss)
         nest.odour = [
@@ -103,12 +145,16 @@ class Algorithm:
         ]
 
     def remove_dead_ants(self, ants: list[Ant]) -> list[Ant]:
+        """Remove all dead ants from the list and return the resulted list."""
         for ant in ants:
             if ant.life == 0:
                 ant.current_node.energy += ant.energy
         return [ant for ant in ants if ant.life]
 
     def remove_no_pheromone_bridges(self, graph: Graph) -> Graph:
+        """Remove all bridges from the graph for which the pheromone reached a
+        value close to 0.
+        """
         bridges_to_remove = [
             bridge for bridge in graph.bridges if bridge.pheromone < EPS
         ]
@@ -117,6 +163,14 @@ class Algorithm:
         return graph
 
     def try_produce_ant(self, node: Node) -> None | Ant:
+        """Produce an ant following a pre-defined probability.
+
+        Args:
+            node: the node to produce the ant from
+
+        Returns:
+            None if an ant is not produced, otherwise the ant
+        """
         if node.type == NodeTypeEnum.COMMON or node.energy == 0:
             return None
         prob_produce = math.atan(node.energy) / math.pi + 0.5
@@ -125,6 +179,9 @@ class Algorithm:
             return Ant(nest=node, life=self.config.ant_cycles)
 
     def move_ant(self, ant: Ant, graph: Graph) -> None:
+        """Decide for the given ant its mode, make it move and update pheromone,
+        energy and odour vectors; possibly construct bridges.
+        """
         if ant.mode == AntModeEnum.EXPLORE:
             if (
                 ant.energy == self.config.max_energy
@@ -161,6 +218,14 @@ class Algorithm:
             bridge.pheromone += self.config.theta
 
     def _compute_routes(self, ant: Ant) -> list[tuple[Edge, float]]:
+        """Compute next possible moves for an ant and their probability.
+
+        Args:
+            ant: the ant that needs moving
+
+        Returns:
+            a list of pairs containing (the edge to take, probability)
+        """
         next_nodes: list[Node] = [
             edge.other(ant.current_node) for edge in ant.current_node.adj_edges
         ]
@@ -184,12 +249,14 @@ class Algorithm:
         return list(zip(ant.current_node.adj_edges, total_eval))
 
     def _eval_node(self, ant: Ant, node: Node) -> int:
+        """Given an ant evaluate the score of a node, based on the ant's mode."""
         if ant.mode == AntModeEnum.EXPLORE:
             return node.energy
         else:
             return self.lesk_engine.compute_overlap(ant.nest.odour, node.odour)
 
     def _energy_exchange(self, ant: Ant, node: Node) -> None:
+        """Exchange energy between the and and the node on which is sitting/"""
         if node is not ant.nest:
             energy = min(
                 self.config.energy_ant,
@@ -199,6 +266,8 @@ class Algorithm:
             ant.energy += energy
             node.energy -= energy
         else:
+            # if the node is the ant's home nest deposit the energy in the nest
+            # then make the ant explore some more if it will still be alive
             node.energy += ant.energy
             ant.energy = 0
             ant.mode = AntModeEnum.EXPLORE

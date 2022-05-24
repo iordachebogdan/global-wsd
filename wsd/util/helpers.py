@@ -37,6 +37,14 @@ def translate_to_wn_relations(relation: str) -> list[str]:
 
 
 def discrete_random_variable(weights: list[float]) -> int:
+    """Sample discrete random variable.
+
+    Args:
+        weights: N - 1 probability weights, the Nth weight is 1 - sum of the others
+
+    Returns:
+        the sampled value between 0 and N - 1
+    """
     rand = random.uniform(0, 1)
     sum_weights: float = 0
     for i, weight in enumerate(weights):
@@ -49,6 +57,16 @@ def discrete_random_variable(weights: list[float]) -> int:
 def normalize(
     array: list[int | float], tol: float = 1e-7, ensure_distribution: bool = False
 ) -> list[float]:
+    """Normalize array values.
+
+    Args:
+        array: the array to normalize
+        tol: tolerance for 0-sum arrays
+        ensure_distribution: if 0-sum array return uniform discrete distribution
+
+    Returns:
+        normalized array
+    """
     sum_array = sum(array)
     if sum_array < tol:
         sum_array = 1

@@ -7,11 +7,13 @@ from nltk.corpus.reader.wordnet import Synset
 
 @dataclass(frozen=True)
 class Item:
+    """Object containing the details of the words that need to be disambiguated."""
+
     id: str
     lemma: str
     pos: str
-    synsets: list[Synset]
-    accepted_synsets: list[Synset]
+    synsets: list[Synset]  # all candidate synsets
+    accepted_synsets: list[Synset]  # all gold synsets
 
     def __eq__(self, o: object) -> bool:
         return self.id == o.id
